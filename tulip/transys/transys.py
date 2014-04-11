@@ -36,7 +36,6 @@ import logging
 from collections import Iterable
 from pprint import pformat
 import copy
-import warnings
 
 from .labeled_graphs import LabeledDiGraph, str2singleton
 from .labeled_graphs import prepend_with
@@ -362,8 +361,9 @@ class FiniteTransitionSystem(LabeledDiGraph):
             ts = ts_or_ba
             return self._sync_prod(ts)
         else:
+            from . import products
             ba = ts_or_ba
-            return _ts_ba_sync_prod(self, ba)
+            return products.ts_ba_sync_prod(self, ba)
     
     def _sync_prod(self, ts):
         """Synchronous (tensor) product with other FTS.

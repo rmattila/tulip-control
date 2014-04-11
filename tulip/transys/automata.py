@@ -41,7 +41,6 @@ from pprint import pformat
 from .labeled_graphs import LabeledDiGraph
 from .labeled_graphs import prepend_with, str2singleton
 from .mathset import SubSet, PowerSet
-from .transys import _ts_ba_sync_prod
 
 _hl = 40 *'-'
 
@@ -280,10 +279,12 @@ class BuchiAutomaton(OmegaAutomaton):
         @rtype: L{BuchiAutomaton}
         """
         if isinstance(ts_or_ba, BuchiAutomaton):
-            return self._ba_ba_sync_prod(ts_or_ba)
+            ba = ts_or_ba
+            return self._ba_ba_sync_prod(ba)
         else:
+            from . import products
             ts = ts_or_ba
-            return _ba_ts_sync_prod(self, ts)
+            return products.ba_ts_sync_prod(self, ts)
     
     def is_accepted(self, prefix, suffix):
         """Check if given infinite word over alphabet \Sigma is accepted.
