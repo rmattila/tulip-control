@@ -368,58 +368,6 @@ def tuple2ba(S, S0, Sa, Sigma_or_AP, trans, name='ba', prepend_str=None,
     
     return ba
 
-def _ba_ts_sync_prod(buchi_automaton, transition_system):
-    """Construct Buchi Automaton equal to synchronous product TS x NBA.
-    
-    See Also
-    ========
-    L{transys._ts_ba_sync_prod}, L{BuchiAutomaton.sync_prod}
-
-    @return: C{prod_ba}, the product L{BuchiAutomaton}.
-    """
-    (prod_ts, persistent) = _ts_ba_sync_prod(
-        transition_system, buchi_automaton
-    )
-    
-    prod_name = buchi_automaton.name +'*' +transition_system.name
-    
-    prod_ba = BuchiAutomaton(name=prod_name)
-    
-    # copy S, S0, from prod_TS-> prod_BA
-    prod_ba.states.add_from(prod_ts.states() )
-    prod_ba.states.initial |= set(prod_ts.states.initial)
-    
-    # accepting states = persistent set
-    prod_ba.states.accepting |= persistent
-    
-    # copy edges, translating transitions,
-    # i.e., changing transition labels
-    if not buchi_automaton.atomic_proposition_based:
-        msg ='Buchi Automaton must be Atomic Proposition-based,' +\
-             ' otherwise the synchronous product is not well-defined.'
-        raise Exception(msg)
-    
-    # direct access, not the inefficient
-    #   prod_ba.alphabet.add_from(buchi_automaton.alphabet() ),
-    # which would generate a combinatorially large alphabet
-    prod_ba.alphabet.math_set |= buchi_automaton.alphabet.math_set
-    
-    for (from_state, to_state) in prod_ts.transitions():
-        # prject prod_TS state to TS state
-        ts_to_state = to_state[0]
-        msg = 'prod_TS: to_state =\n\t' +str(to_state) +'\n'
-        msg += 'TS: ts_to_state =\n\t' +str(ts_to_state)
-        logger.debug(msg)
-        
-        state_label_pairs = transition_system.states.find(ts_to_state)
-        (ts_to_state_, transition_label_dict) = state_label_pairs[0]
-        transition_label_value = transition_label_dict['ap']
-        prod_ba.transitions.add(
-            from_state, to_state, letter=transition_label_value
-        )
-    
-    return prod_ba
-
 def ba2dra():
     """Buchi to Deterministic Rabin Automaton converter.
     """
