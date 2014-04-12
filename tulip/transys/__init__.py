@@ -53,3 +53,5 @@ from .automata import (
 )
 
 from .machines import MooreMachine, MealyMachine, Mealy
+
+from .products import OnTheFlyProductAutomaton
