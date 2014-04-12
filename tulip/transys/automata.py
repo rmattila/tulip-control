@@ -270,7 +270,7 @@ class BuchiAutomaton(OmegaAutomaton):
         
         See Also
         ========
-        L{transys._ts_ba_sync_prod}
+        L{transys.products.ts_ba_sync_prod}
         
         @param ts_or_ba: other with which to take synchronous product
         @type ts_or_ba: L{FiniteTransitionSystem} or L{BuchiAutomaton}
