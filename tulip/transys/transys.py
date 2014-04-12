@@ -220,8 +220,9 @@ class FiniteTransitionSystem(LabeledDiGraph):
         self.default_export_fname = 'fts'
 
     def __str__(self):
-        s = _hl +'\nFinite Transition System (closed) : '
-        s += self.name +'\n' +_hl +'\n'
+        s = '\n' + _hl +'\n'
+        s += 'Finite Transition System (closed) : ' + self.name
+        s += '\n' +_hl +'\n'
         s += 'Atomic Propositions:\n\t'
         s += pformat(self.atomic_propositions, indent=3) +2*'\n'
         s += 'States and State Labels (\in 2^AP):\n'
