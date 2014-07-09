@@ -650,7 +650,7 @@ def discretize(
         logger.debug(msg)
         
         #logger.debug('si \cap s0')
-        isect = si.intersect(S0)
+        isect = si.intersect(S0) # This should not be needed..
         vol1 = isect.volume
         risect, xi = pc.cheby_ball(isect)
         
